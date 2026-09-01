@@ -19,7 +19,6 @@ public class TicketRepository {
     }
 
     public Ticket save(Ticket ticket) {
-        ticket.setId(UUID.randomUUID());
         tickets.add(ticket);
         return ticket;
     }
