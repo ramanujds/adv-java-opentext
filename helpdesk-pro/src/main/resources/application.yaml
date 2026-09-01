@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: helpdesk-pro
+
+server:
+  port: 8000
