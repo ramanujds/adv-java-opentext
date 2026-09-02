@@ -3,6 +3,7 @@ package com.helpdeskpro.service;
 import com.helpdeskpro.domain.Priority;
 import com.helpdeskpro.domain.Ticket;
 import com.helpdeskpro.domain.TicketStatus;
+import com.helpdeskpro.exception.TicketNotFoundException;
 import com.helpdeskpro.repository.TicketRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -46,13 +47,27 @@ public class TicketService {
     }
 
     public Ticket getTicketById(UUID id){
-        return ticketRepository.findById(id).orElseThrow(() -> new RuntimeException("Ticket not found"));
+        return ticketRepository.findById(id).orElseThrow(()-> new TicketNotFoundException("Ticket with id " + id + " not found"));
     }
 
     public Ticket closeTicket(UUID id){
         Ticket ticket = getTicketById(id);
         ticket.setStatus(TicketStatus.CLOSED);
         return ticketRepository.save(ticket);
+    }
+
+    public Ticket reopenTicket(UUID id){
+        Ticket ticket = getTicketById(id);
+        ticket.setStatus(TicketStatus.OPEN);
+        return ticketRepository.save(ticket);
+    }
+
+    public List<Ticket> getTicketsByStatus(TicketStatus status){
+        return ticketRepository.findByStatus(status);
+    }
+
+    public List<Ticket> getOverdueTickets(){
+        return ticketRepository.findOverdueTickets();
     }
 
 }

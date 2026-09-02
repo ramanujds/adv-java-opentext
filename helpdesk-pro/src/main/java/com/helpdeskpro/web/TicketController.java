@@ -61,5 +61,12 @@ public class TicketController {
         return TicketResponse.from(ticket);
     }
 
+    @GetMapping("/search")
+    public List<TicketResponse> searchTickets(@RequestParam("status") String status){
+        return ticketService.getTicketsByStatus(TicketStatus.valueOf(status.toUpperCase())).stream().map(TicketResponse::from).toList();
+    }
+
+
+
 
 }
