@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -21,7 +22,6 @@ public class TicketService {
 
     public Ticket createTicket(String subject, String description, Priority priority, LocalDateTime dueAt) {
         Ticket ticket = Ticket.builder()
-                .id(UUID.randomUUID())
                 .subject(subject)
                 .description(description)
                 .priority(priority)
@@ -30,7 +30,7 @@ public class TicketService {
                 .status(TicketStatus.OPEN)
                 .build();
 //        Ticket ticket = new Ticket(
-//                UUID.randomUUID(),
+//                null,
 //                subject,
 //                description,
 //                priority,
@@ -38,6 +38,20 @@ public class TicketService {
 //                LocalDateTime.now(),
 //                dueAt
 //        );
+        return ticketRepository.save(ticket);
+    }
+
+    public List<Ticket> getAllTickets(){
+        return ticketRepository.findAll();
+    }
+
+    public Ticket getTicketById(UUID id){
+        return ticketRepository.findById(id).orElseThrow(() -> new RuntimeException("Ticket not found"));
+    }
+
+    public Ticket closeTicket(UUID id){
+        Ticket ticket = getTicketById(id);
+        ticket.setStatus(TicketStatus.CLOSED);
         return ticketRepository.save(ticket);
     }
 

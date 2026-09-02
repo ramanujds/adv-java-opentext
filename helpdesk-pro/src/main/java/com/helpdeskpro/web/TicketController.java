@@ -5,12 +5,10 @@ import com.helpdeskpro.domain.TicketStatus;
 import com.helpdeskpro.service.TicketService;
 import com.helpdeskpro.web.dto.CreateTicketRequest;
 import com.helpdeskpro.web.dto.TicketResponse;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/tickets")
@@ -49,8 +47,18 @@ public class TicketController {
         return null;
     }
 
+    @GetMapping
     public List<TicketResponse> getAllTickets(){
-        return null;
+        return ticketService.getAllTickets()
+                .stream()
+                .map(TicketResponse::from)
+                .toList();
+    }
+
+    @GetMapping("/{id}")
+    public TicketResponse getTicketById(@PathVariable("id") UUID id){
+        Ticket ticket = ticketService.getTicketById(id);
+        return TicketResponse.from(ticket);
     }
 
 

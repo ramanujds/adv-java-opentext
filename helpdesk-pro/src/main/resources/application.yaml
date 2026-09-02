@@ -1,6 +1,17 @@
+server:
+  port: 8000
+
 spring:
   application:
     name: helpdesk-pro
 
-server:
-  port: 8000
+## DataSource
+  datasource:
+    url: jdbc:mysql://localhost:3306/helpdesk_pro?useSSL=false&serverTimezone=UTC
+    username: root
+    password: password
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
