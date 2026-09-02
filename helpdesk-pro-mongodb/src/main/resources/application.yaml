@@ -1,0 +1,11 @@
+server:
+  port: 8000
+
+spring:
+  application:
+    name: helpdesk-pro
+
+## DataSource
+  mongodb:
+    database: helpdesk-pro
+    uri: mongodb://localhost:27017/helpdesk-pro
