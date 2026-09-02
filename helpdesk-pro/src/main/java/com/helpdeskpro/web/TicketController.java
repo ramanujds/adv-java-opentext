@@ -3,6 +3,7 @@ package com.helpdeskpro.web;
 import com.helpdeskpro.domain.Ticket;
 import com.helpdeskpro.domain.TicketStatus;
 import com.helpdeskpro.service.TicketService;
+import com.helpdeskpro.web.dto.AssignTicketRequest;
 import com.helpdeskpro.web.dto.CreateTicketRequest;
 import com.helpdeskpro.web.dto.TicketResponse;
 import org.springframework.web.bind.annotation.*;
@@ -32,6 +33,17 @@ public class TicketController {
         );
         return TicketResponse.from(ticket);
 
+
+
+
+
+    }
+
+    @PatchMapping("{id}/assign")
+    public TicketResponse assignTicket(@PathVariable("id") UUID id, @RequestBody AssignTicketRequest assignTicketRequest){
+
+        var ticket = ticketService.assignTicket(id, assignTicketRequest.agentId());
+        return TicketResponse.from(ticket);
 
     }
 
