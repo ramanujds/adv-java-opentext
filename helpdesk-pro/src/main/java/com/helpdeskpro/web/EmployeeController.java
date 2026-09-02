@@ -3,6 +3,7 @@ package com.helpdeskpro.web;
 import com.helpdeskpro.service.EmployeeService;
 import com.helpdeskpro.web.dto.CreateEmployeeRequest;
 import com.helpdeskpro.web.dto.EmployeeResponse;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,7 +22,7 @@ public class EmployeeController {
     }
 
     @PostMapping
-    public EmployeeResponse createEmployee(@RequestBody CreateEmployeeRequest employeeRequest){
+    public EmployeeResponse createEmployee(@RequestBody @Valid CreateEmployeeRequest employeeRequest){
         var employee = employeeService.createEmployee(employeeRequest.name(), employeeRequest.email(), employeeRequest.agent());
         return EmployeeResponse.from(employee);
     }
