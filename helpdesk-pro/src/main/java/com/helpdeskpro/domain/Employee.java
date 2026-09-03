@@ -25,5 +25,6 @@ public class Employee {
     private String email;
     @Column(nullable = false, name = "is_agent")
     private boolean agent;
+    private String password;
 
 }

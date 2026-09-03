@@ -2,6 +2,7 @@ package com.helpdeskpro.service;
 
 import com.helpdeskpro.domain.Employee;
 import com.helpdeskpro.repository.EmployeeRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,15 +12,20 @@ import java.util.UUID;
 public class EmployeeService {
 
     private final EmployeeRepository employeeRepository;
-    public EmployeeService(EmployeeRepository employeeRepository) {
+    private final PasswordEncoder passwordEncoder;
+
+
+    public EmployeeService(EmployeeRepository employeeRepository, PasswordEncoder passwordEncoder) {
         this.employeeRepository = employeeRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
-    public Employee createEmployee(String name, String email, boolean isAgent) {
+    public Employee createEmployee(String name, String email, boolean isAgent, String password) {
         Employee employee = Employee.builder()
                 .name(name)
                 .email(email)
                 .agent(isAgent)
+                .password(passwordEncoder.encode(password))
                 .build();
         return employeeRepository.save(employee);
     }

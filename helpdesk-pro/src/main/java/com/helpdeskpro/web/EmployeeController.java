@@ -23,7 +23,7 @@ public class EmployeeController {
 
     @PostMapping
     public EmployeeResponse createEmployee(@RequestBody @Valid CreateEmployeeRequest employeeRequest){
-        var employee = employeeService.createEmployee(employeeRequest.name(), employeeRequest.email(), employeeRequest.agent());
+        var employee = employeeService.createEmployee(employeeRequest.name(), employeeRequest.email(), employeeRequest.agent(), employeeRequest.password());
         return EmployeeResponse.from(employee);
     }
 

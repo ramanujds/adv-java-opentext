@@ -8,6 +8,7 @@ import com.helpdeskpro.exception.TicketNotFoundException;
 import com.helpdeskpro.repository.EmployeeRepository;
 import com.helpdeskpro.repository.TicketRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -51,6 +52,7 @@ public class TicketService {
         return ticketRepository.save(ticket);
     }
 
+    @PreAuthorize( "hasRole('AGENT')")
     public Ticket assignTicket(UUID ticketId, UUID assignedTo) {
         Ticket ticket = getTicketById(ticketId);
         Employee assignee = employeeRepository.findById(assignedTo).orElseThrow(() -> new RuntimeException("Employee not found"));
@@ -65,6 +67,7 @@ public class TicketService {
         return ticketRepository.save(ticket);
     }
 
+    @PreAuthorize( "hasRole('AGENT')")
     public List<Ticket> getAllTickets() {
         return ticketRepository.findAll();
     }
