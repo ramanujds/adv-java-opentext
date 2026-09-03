@@ -9,7 +9,6 @@ public record CreateTicketRequest(
         String subject,
         String description,
         Priority priority,
-        LocalDateTime dueAt,
-        UUID submittedBy
+        LocalDateTime dueAt
 ) {
 }

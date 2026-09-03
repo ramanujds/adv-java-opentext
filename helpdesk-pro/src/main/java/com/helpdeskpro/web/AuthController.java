@@ -2,6 +2,7 @@ package com.helpdeskpro.web;
 
 import com.helpdeskpro.security.JwtService;
 import com.helpdeskpro.web.dto.LoginRequest;
+import com.helpdeskpro.web.dto.LoginResponse;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -23,10 +24,11 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public String login(@RequestBody LoginRequest loginRequest) {
+    public LoginResponse login(@RequestBody LoginRequest loginRequest) {
         var authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.email(), loginRequest.password()));
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        return jwtService.generateToken(userDetails);
+        String token =  jwtService.generateToken(userDetails);
+        return new LoginResponse(token,"Bearer", jwtService.getExpirationSeconds());
     }
 
 

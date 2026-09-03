@@ -7,6 +7,7 @@ import com.helpdeskpro.domain.TicketStatus;
 import com.helpdeskpro.exception.TicketNotFoundException;
 import com.helpdeskpro.repository.EmployeeRepository;
 import com.helpdeskpro.repository.TicketRepository;
+import com.helpdeskpro.security.CurrentUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
@@ -20,17 +21,18 @@ public class TicketService {
 
     private final TicketRepository ticketRepository;
     private final EmployeeRepository employeeRepository;
+    private CurrentUserService currentUserService;
 
 
-    public TicketService(TicketRepository ticketRepository, EmployeeRepository employeeRepository) {
+    public TicketService(TicketRepository ticketRepository, EmployeeRepository employeeRepository, CurrentUserService currentUserService) {
         this.ticketRepository = ticketRepository;
         this.employeeRepository = employeeRepository;
+        this.currentUserService = currentUserService;
     }
 
-    public Ticket createTicket(UUID submittedBy, String subject, String description, Priority priority, LocalDateTime dueAt) {
+    public Ticket createTicket(String subject, String description, Priority priority, LocalDateTime dueAt) {
 
-        Employee submitter = employeeRepository.findById(submittedBy).orElseThrow(() -> new RuntimeException("Employee not found"));
-
+        Employee submitter = currentUserService.getCurrentUser();
         Ticket ticket = Ticket.builder()
                 .subject(subject)
                 .description(description)
@@ -41,7 +43,6 @@ public class TicketService {
                 .submittedBy(submitter)
                 .build();
 //        Ticket ticket = new Ticket(
-//                null,
 //                subject,
 //                description,
 //                priority,

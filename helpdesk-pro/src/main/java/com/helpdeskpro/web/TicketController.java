@@ -25,7 +25,6 @@ public class TicketController {
     public TicketResponse createTicket(@RequestBody CreateTicketRequest ticketRequest) {
 
         Ticket ticket = ticketService.createTicket(
-                ticketRequest.submittedBy(),
                 ticketRequest.subject(),
                 ticketRequest.description(),
                 ticketRequest.priority(),
